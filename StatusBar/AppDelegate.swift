@@ -9,6 +9,7 @@
 import Cocoa
 import SwiftUI
 import NetworkExtension
+import Network
 
 struct myIPResponse: Codable {
     let ip: String?
@@ -27,28 +28,36 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     var window: NSWindow!
     let statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+    let monitor = NWPathMonitor()
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // The application does not appear in the Dock and may not create
         // windows or be activated.
         NSApp.setActivationPolicy(.prohibited)
 
-        self.start()
-        
-        let halfHour = 30 * 60
-        Timer.scheduledTimer(withTimeInterval: TimeInterval(halfHour), repeats: true) { timer in
-            self.start()
-        }
+        self.startMonitor()
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
     }
     
-    func start() {
+    func startMonitor() {
+        self.monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                self.startGetMyIP()
+            }
+        }
+        
+        let queue = DispatchQueue(label: "Monitor")
+        monitor.start(queue: queue)
+    }
+    
+    func startGetMyIP() {
         self.getMyIP() { (output) in
             DispatchQueue.main.async {
                 self.statusBarItem.button?.title = "\(output.ip!), \(output.cc!)"
+                self.showNotification(title: output.ip!, subtitle: output.country!)
             }
         }
     }
@@ -65,6 +74,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 }
             }.resume()
         }
+    }
+    
+    func showNotification(title: String, subtitle: String) -> Void {
+                let notification = NSUserNotification()
+                notification.title = title
+                notification.subtitle = subtitle
+                notification.soundName = NSUserNotificationDefaultSoundName
+        NSUserNotificationCenter.default.delegate = self as? NSUserNotificationCenterDelegate
+                NSUserNotificationCenter.default.deliver(notification)
+    }
+
+    func userNotificationCenter(_ center: NSUserNotificationCenter,
+                                             shouldPresent notification: NSUserNotification) -> Bool {
+            return true
     }
 }
 

@@ -23,6 +23,7 @@
 		ECAE38D22413584C006B0F4A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		ECAE38D42413584C006B0F4A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ECAE38D52413584C006B0F4A /* StatusBar.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = StatusBar.entitlements; sourceTree = "<group>"; };
+		ECAE38DB24169C6D006B0F4A /* Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Header.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +63,7 @@
 				ECAE38D42413584C006B0F4A /* Info.plist */,
 				ECAE38D52413584C006B0F4A /* StatusBar.entitlements */,
 				ECAE38CE2413584C006B0F4A /* Preview Content */,
+				ECAE38DB24169C6D006B0F4A /* Header.h */,
 			);
 			path = StatusBar;
 			sourceTree = "<group>";
@@ -296,6 +298,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = com.lighter.StatusBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = StatusBar/Header.h;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -319,6 +322,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = com.lighter.StatusBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = StatusBar/Header.h;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
